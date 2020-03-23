@@ -9,6 +9,9 @@ import validation.NotaValidator;
 import validation.StudentValidator;
 import validation.TemaValidator;
 
+import java.util.stream.StreamSupport;
+
+import static java.io.FileDescriptor.in;
 import static org.junit.Assert.*;
 
 /**
@@ -117,9 +120,9 @@ public class AppTest
         NotaXMLRepo notaXMLRepository = new NotaXMLRepo(filenameNota);
         Service service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
 
-        service.addTema(new Tema("2", "Lab 3",2, 4));
-        Tema found = service.findTema("2");
-        assertEquals(found.getID(),"2");
+        //delete tema 3 from xml
+        service.deleteTema("3");
+        assertEquals(StreamSupport.stream(service.getAllTeme().spliterator(), false).count(),6);
     }
 
     @Test
