@@ -32,7 +32,7 @@ public class AppTest
         assertTrue( true );
     }
 
-    @Test
+    /*@Test
     public void testAddStudent(){
         StudentValidator studentValidator = new StudentValidator();
         TemaValidator temaValidator = new TemaValidator();
@@ -125,8 +125,14 @@ public class AppTest
 
         //delete tema 3 from xml
         service.deleteTema("3");
-        assertEquals(StreamSupport.stream(service.getAllTeme().spliterator(), false).count(),6);
+        assertEquals(StreamSupport.stream(service.getAllTeme().spliterator(), false).count(),7);
     }
+
+    @Test
+    public void runTests(){
+        testAddFirstAssignment();
+        testAddSecondAssignment();
+    }*/
     //BIG BANG INTEGRATION
     @Test
     public void AddStudentInLab4(){
@@ -140,7 +146,7 @@ public class AppTest
         NotaValidator notaValidator = new NotaValidator(studentXMLRepository, temaXMLRepository);
         NotaXMLRepo notaXMLRepository = new NotaXMLRepo(filenameNota);
         this.service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
-
+        this.service.deleteStudent("33");
         service.addStudent(new Student("33","TestStudentLab4",933,"email@yahoo.com"));
         assertEquals("33",service.findStudent("33").getID());
 
@@ -149,7 +155,7 @@ public class AppTest
     @Test
     public void AddAsignmentInLab4(){
         service.addTema(new Tema("Tema1","Homework for lab4",5,4));
-        assertFalse(service.findTema("Tema1").equals(null));
+        assertTrue(service.findTema("Tema1").getID().equals("Tema1"));
     }
 
     @Test
@@ -166,9 +172,5 @@ public class AppTest
         AddGradeInLab4();
     }
 
-    @Test
-    public void runTests(){
-        testAddFirstAssignment();
-        testAddSecondAssignment();
-    }
+
 }
