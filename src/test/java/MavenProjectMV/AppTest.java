@@ -154,16 +154,16 @@ public class AppTest
 
     @Test
     public void AddAsignmentInLab4(){
-        service.deleteTema("Tema1");
-        service.addTema(new Tema("Tema1","Homework for lab4",5,4));
-        assertTrue(service.findTema("Tema1").getID().equals("Tema1"));
+        service.addTema(new Tema("HW1","Homework for lab4",5,4));
+        Tema found = service.findTema("HW1");
+        assertEquals("HW1",found.getID());
     }
 
     @Test
     public void AddGradeInLab4(){
         service.addNota(new Nota("Nota10","33","Tema1",10, LocalDate.of(2018,11,10)),"Congrats!");
         Nota nota = service.findNota("Nota10");
-        assertNotNull(nota);
+        assertEquals("33",nota.getIdStudent());
     }
 
     @Test
