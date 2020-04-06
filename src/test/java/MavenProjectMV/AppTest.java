@@ -1,5 +1,6 @@
 package MavenProjectMV;
 
+import domain.Nota;
 import domain.Student;
 import domain.Tema;
 import org.junit.Test;
@@ -9,6 +10,7 @@ import validation.NotaValidator;
 import validation.StudentValidator;
 import validation.TemaValidator;
 
+import java.time.LocalDate;
 import java.util.stream.StreamSupport;
 
 import static java.io.FileDescriptor.in;
@@ -17,8 +19,9 @@ import static org.junit.Assert.*;
 /**
  * Unit test for simple App.
  */
-public class AppTest 
+public class AppTest
 {
+    Service service;
 
     /**
      * Rigorous Test :-)
@@ -123,6 +126,44 @@ public class AppTest
         //delete tema 3 from xml
         service.deleteTema("3");
         assertEquals(StreamSupport.stream(service.getAllTeme().spliterator(), false).count(),6);
+    }
+    //BIG BANG INTEGRATION
+    @Test
+    public void AddStudentInLab4(){
+        StudentValidator studentValidator = new StudentValidator();
+        TemaValidator temaValidator = new TemaValidator();
+        String filenameStudent = "fisiere/Studenti.xml";
+        String filenameTema = "fisiere/Teme.xml";
+        String filenameNota = "fisiere/Note.xml";
+        StudentXMLRepo studentXMLRepository = new StudentXMLRepo(filenameStudent);
+        TemaXMLRepo temaXMLRepository = new TemaXMLRepo(filenameTema);
+        NotaValidator notaValidator = new NotaValidator(studentXMLRepository, temaXMLRepository);
+        NotaXMLRepo notaXMLRepository = new NotaXMLRepo(filenameNota);
+        this.service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
+
+        service.addStudent(new Student("33","TestStudentLab4",933,"email@yahoo.com"));
+        assertEquals("33",service.findStudent("33").getID());
+
+    }
+
+    @Test
+    public void AddAsignmentInLab4(){
+        service.addTema(new Tema("Tema1","Homework for lab4",5,4));
+        assertFalse(service.findTema("Tema1").equals(null));
+    }
+
+    @Test
+    public void AddGradeInLab4(){
+        service.addNota(new Nota("Nota10","33","Tema1",10, LocalDate.of(2018,10,29)),"Congrats!");
+        Nota nota = service.findNota("Nota10");
+        assertNotNull(nota);
+    }
+
+    @Test
+    public void RuntAllTests(){
+        AddStudentInLab4();
+        AddAsignmentInLab4();
+        AddGradeInLab4();
     }
 
     @Test
