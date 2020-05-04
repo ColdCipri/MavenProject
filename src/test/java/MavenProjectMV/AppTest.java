@@ -23,6 +23,7 @@ import static org.junit.Assert.*;
 public class AppTest
 {
     Service service;
+    TemaFileRepository temaFileRepository = new TemaFileRepository("fisiere/Teme.txt");
 
     /**
      * Rigorous Test :-)
@@ -175,7 +176,6 @@ public class AppTest
         AddAsignmentInLab4();
         AddGradeInLab4();
     }
-    */
 
     //Lab2 Take Home EC
     @Test
@@ -289,7 +289,7 @@ public class AppTest
         Student stud = new Student(" ","Name1",922,"email@gmail.com");
         /*Student stud = new Student("","Name1",922,"email@gmail.com");
         Student stud = new Student("123","Name1",922,"email@gmail.com");
-        Student stud = new Student("abc","Name1",922,"email@gmail.com");*/
+        Student stud = new Student("abc","Name1",922,"email@gmail.com");
         try {
             service.addStudent(stud);
             assertTrue(true);
@@ -314,7 +314,7 @@ public class AppTest
         Student stud = new Student("id10"," ",922,"email@gmail.com");
         /*Student stud = new Student("id10","",922,"email@gmail.com");
         Student stud = new Student("id10","abc",922,"email@gmail.com");
-        Student stud = new Student("id10","123",922,"email@gmail.com");*/
+        Student stud = new Student("id10","123",922,"email@gmail.com");
         try {
             service.addStudent(stud);
             assertTrue(true);
@@ -339,9 +339,80 @@ public class AppTest
         Student stud = new Student("id10","Nume1",999999999,"email@gmail.com");
         /*Student stud = new Student("id10","Nume1",0,"email@gmail.com");
         Student stud = new Student("id10","Nume1",1,"email@gmail.com");
-        Student stud = new Student("id10","Nume1",-1,"email@gmail.com");*/
+        Student stud = new Student("id10","Nume1",-1,"email@gmail.com");
             try {
             service.addStudent(stud);
+            assertTrue(true);
+        } catch (Exception e){
+            assertTrue(false);
+        }
+    }*/
+
+
+
+    public Tema addTema(Tema tema){
+        this.validate(tema);
+        return temaFileRepository.save(tema);
+    }
+
+    public void validate(Tema entity) throws ValidationException{
+        if (entity.getID().equals("") || entity.getID() == null)
+            throw new ValidationException("Numar tema invalid!");
+
+        if (entity.getDescriere().equals(""))
+            throw new ValidationException("Descriere invalida!");
+
+        if (entity.getDeadline() < 1 || entity.getDeadline() > 14)
+            throw new ValidationException("Deadline invalid! Trebuie sa fie intre 1 si 14!");
+
+        if (entity.getPrimire() < 1 || entity.getPrimire() > 14)
+            throw new ValidationException("Invalid! Saptamana cand este primita tema trebuie sa fie intre 1 si 14");
+    }
+
+    @Test
+    public void addTemaIdWBT(){
+        try{
+            Tema entity = addTema(new Tema("","Lab2",7,5));
+            assertFalse(true);
+        } catch (Exception e){
+            assertFalse(false);
+        }
+    }
+
+    @Test
+    public void addTemaDescriereWBT(){
+        try{
+            Tema entity = addTema(new Tema("id13","",7,5));
+            assertFalse(true);
+        } catch (Exception e){
+            assertFalse(false);
+        }
+    }
+
+    @Test
+    public void addTemaDeadlineWBT(){
+        try{
+            Tema entity = addTema(new Tema("id13","Lab2",20,5));
+            assertFalse(true);
+        } catch (Exception e){
+            assertFalse(false);
+        }
+    }
+
+    @Test
+    public void addTemaPrimireWBT(){
+        try{
+            Tema entity = addTema(new Tema("id13","Lab2",7,0));
+            assertFalse(true);
+        } catch (Exception e){
+            assertFalse(false);
+        }
+    }
+
+    @Test
+    public void addTemaAssertTrueWBT(){
+        try{
+            Tema entity = addTema(new Tema("id13","Lab2",7,5));
             assertTrue(true);
         } catch (Exception e){
             assertTrue(false);
