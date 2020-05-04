@@ -133,7 +133,9 @@ public class AppTest
     public void runTests(){
         testAddFirstAssignment();
         testAddSecondAssignment();
-    }*/
+    }
+
+
     //BIG BANG INTEGRATION
     @Test
     public void AddStudentInLab4(){
@@ -173,7 +175,7 @@ public class AppTest
         AddAsignmentInLab4();
         AddGradeInLab4();
     }
-
+    */
 
     //Lab2 Take Home EC
     @Test
@@ -334,10 +336,10 @@ public class AppTest
         NotaXMLRepo notaXMLRepository = new NotaXMLRepo(filenameNota);
         this.service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
 
-        Student stud = new Student("id10","Nume1",-1,"email@gmail.com");
+        Student stud = new Student("id10","Nume1",999999999,"email@gmail.com");
         /*Student stud = new Student("id10","Nume1",0,"email@gmail.com");
         Student stud = new Student("id10","Nume1",1,"email@gmail.com");
-        Student stud = new Student("id10","Nume1",999999999,"email@gmail.com");*/
+        Student stud = new Student("id10","Nume1",-1,"email@gmail.com");*/
             try {
             service.addStudent(stud);
             assertTrue(true);
