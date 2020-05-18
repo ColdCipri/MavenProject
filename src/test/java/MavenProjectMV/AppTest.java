@@ -22,8 +22,19 @@ import static org.junit.Assert.*;
  */
 public class AppTest
 {
-    Service service;
     TemaFileRepository temaFileRepository = new TemaFileRepository("fisiere/Teme.txt");
+    StudentValidator studentValidator;
+    TemaValidator temaValidator;
+    String filenameStudent = "fisiere/Studenti.xml";
+    String filenameTema = "fisiere/Teme.xml";
+    String filenameNota = "fisiere/Note.xml";
+
+    StudentXMLRepo studentXMLRepository;
+    TemaXMLRepo temaXMLRepository;
+    NotaValidator notaValidator;
+    NotaXMLRepo notaXMLRepository;
+    Service service;
+
 
     /**
      * Rigorous Test :-)
@@ -346,7 +357,7 @@ public class AppTest
         } catch (Exception e){
             assertTrue(false);
         }
-    }*/
+    }
 
 
 
@@ -417,5 +428,54 @@ public class AppTest
         } catch (Exception e){
             assertTrue(false);
         }
+    }*/
+
+    //Lab4 TH
+
+    @Test
+    public void addStudentTD(){
+        studentValidator = new StudentValidator();
+        temaValidator = new TemaValidator();
+        filenameStudent = "fisiere/Studenti.xml";
+        filenameTema = "fisiere/Teme.xml";
+        filenameNota = "fisiere/Note.xml";
+
+        studentXMLRepository = new StudentXMLRepo(filenameStudent);
+        temaXMLRepository = new TemaXMLRepo(filenameTema);
+        notaValidator = new NotaValidator(studentXMLRepository, temaXMLRepository);
+        notaXMLRepository = new NotaXMLRepo(filenameNota);
+        service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
+
+        service.addStudent(new Student("10","Vasile", 233,"vasile@gmail.com"));
+        Student found = service.findStudent("10");
+        assertNotNull(found);
+    }
+
+    @Test
+    public void addAssignmentTD(){
+        this.service.addTema(new Tema("Tema10","Laborator3",11,9));
+        Tema found = service.findTema("Tema10");
+        System.out.println(found.toString());
+        assertNotNull(found);
+    }
+
+    @Test
+    public void addGradeTD(){
+        this.service.addNota(new Nota("Nota10","10","Tema10",10,LocalDate.now()),"Congratulations" );
+        Nota found = service.findNota("Nota10");
+        assertNotNull(found);
+    }
+
+    @Test
+    public void IncrIntegr1(){
+        addStudentTD();
+        addAssignmentTD();
+    }
+
+    @Test
+    public void IncrIntegr2(){
+        addStudentTD();
+        addAssignmentTD();
+        addGradeTD();
     }
 }
